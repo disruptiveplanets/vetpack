@@ -9,6 +9,23 @@ from scipy.signal import find_peaks
 
 
 def median_image(tpf, ax=None):
+    """
+    Plot the median image from a target pixel file.
+
+    Parameters
+    ----------
+    tpf : `~lightkurve.TargetPixelFile`
+        A target pixel file object.
+
+    ax : `~matplotlib.axes.Axes` or None, optional.
+        The `~matplotlib.axes.Axes` object to be drawn on.
+        If None, creates a new ``Figure`` and ``Axes``.
+
+    Returns
+    -------
+    ax : `~matplotlib.axes.Axes`
+        An ``Axes`` object with the median image plotted.
+    """
     # Target position in the TPF
     ra, dec = _pmcorrected_coordinates(tpf)
     radec = np.vstack([ra, dec]).T
@@ -44,6 +61,32 @@ def median_image(tpf, ax=None):
 
 
 def difference_image(tpf, t0, period, duration, ax=None):
+    """
+    Plot the median in/out transit difference image from a target pixel file.
+
+    Parameters
+    ----------
+    tpf : `~lightkurve.TargetPixelFile`
+        A target pixel file object.
+
+    t0 : float
+        The central transit time.
+
+    period : float
+        The orbital period.
+
+    duration : float
+        The duration of the transit.
+
+    ax : `~matplotlib.axes.Axes` or None, optional.
+        The `~matplotlib.axes.Axes` object to be drawn on.
+        If None, creates a new ``Figure`` and ``Axes``.
+
+    Returns
+    -------
+    ax : `~matplotlib.axes.Axes`
+        An ``Axes`` object with the median difference image plotted.
+    """
     # Target position in the TPF
     ra, dec = _pmcorrected_coordinates(tpf)
     radec = np.vstack([ra, dec]).T
@@ -105,6 +148,22 @@ def difference_image(tpf, t0, period, duration, ax=None):
 
 
 def _plot_pipeline_mask(ax, tpf):
+    """
+    Plot the pipeline aperture mask.
+
+    Parameters
+    ----------
+    ax : `~matplotlib.axes.Axes`
+        The `~matplotlib.axes.Axes` object to be drawn on.
+
+    tpf : `~lightkurve.TargetPixelFile`
+        The relevant target pixel file object.
+
+    Returns
+    -------
+    ax : `~matplotlib.axes.Axes`
+        An ``Axes`` object with the pipeline mask overplotted.
+    """
     for i, j in np.ndindex(tpf.pipeline_mask.shape):
         if tpf.pipeline_mask[i, j]:
             ax.add_patch(
@@ -118,6 +177,23 @@ def _plot_pipeline_mask(ax, tpf):
 
 
 def _pmcorrected_coordinates(tpf):
+    """
+    Get the proper-motion-corrected coordinates of the target
+    from a target pixel file header.
+
+    Parameters
+    ----------
+    tpf : `~lightkurve.TargetPixelFile`
+        A target pixel file object.
+
+    Returns
+    -------
+    ra : float
+        The proper-motion-corrected right ascension in degrees.
+
+    dec : float
+        The proper-motion-corrected declination in degrees.
+    """
     # Calculate time since J2000
     h = tpf.get_header()
     t_start = Time(h['DATE-OBS'])
@@ -131,4 +207,4 @@ def _pmcorrected_coordinates(tpf):
     ra = tpf.ra + pmra
     dec = tpf.dec + pmdec
 
-    return (ra, dec)
+    return ra, dec
