@@ -1,14 +1,17 @@
 """Centroid inspection."""
+import astropy.units as u
 import matplotlib.pyplot as plt
 import numpy as np
 import transitleastsquares as tls
+from astropy.time import Time
 from matplotlib import patches
 from scipy.signal import find_peaks
 
 
 def median_image(tpf, ax=None):
     # Target position in the TPF
-    radec = np.vstack([tpf.ra, tpf.dec]).T
+    ra, dec = _pmcorrected_coordinates(tpf)
+    radec = np.vstack([ra, dec]).T
     coords = tpf.wcs.all_world2pix(radec, 0)
     tx = coords[0][0]+tpf.column
     ty = coords[0][0]+tpf.row
@@ -42,7 +45,8 @@ def median_image(tpf, ax=None):
 
 def difference_image(tpf, t0, period, duration, ax=None):
     # Target position in the TPF
-    radec = np.vstack([tpf.ra, tpf.dec]).T
+    ra, dec = _pmcorrected_coordinates(tpf)
+    radec = np.vstack([ra, dec]).T
     coords = tpf.wcs.all_world2pix(radec, 0)
     tx = coords[0][0]+tpf.column
     ty = coords[0][0]+tpf.row
@@ -111,3 +115,20 @@ def _plot_pipeline_mask(ax, tpf):
             )
 
     return ax
+
+
+def _pmcorrected_coordinates(tpf):
+    # Calculate time since J2000
+    h = tpf.get_header()
+    t_start = Time(h['DATE-OBS'])
+    t_end = Time(h['DATE-END'])
+    t_obs = t_start + (t_end-t_start)/2
+    dt = ((t_obs.jd - Time('J2000').jd)*u.day).to(u.year)
+
+    # Apply proper motion correction
+    pmra = ((h['PMRA']*u.mas/u.yr)*dt).to(u.deg).value
+    pmdec = ((h['PMDEC']*u.mas/u.yr)*dt).to(u.deg).value
+    ra = tpf.ra + pmra
+    dec = tpf.dec + pmdec
+
+    return (ra, dec)
