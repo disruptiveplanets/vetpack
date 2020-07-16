@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='vetpack',
-    version='0.0.0',
+    version='0.0.dev1',
     author='Benjamin V. Rackham',
     author_email='brackham@mit.edu',
     description='Tools for vetting transit signals',
