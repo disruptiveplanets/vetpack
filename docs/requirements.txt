@@ -1,5 +1,6 @@
 astropy
 matplotlib
 numpy
+vetpack
 scipy
 sphinx-automodapi
