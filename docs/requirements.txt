@@ -1,4 +1,5 @@
 astropy
+batman-package
 matplotlib
 numpy
 vetpack
