@@ -5,7 +5,7 @@ An open-source package for vetting candidate exoplanetary transit signals.
 """
 from .centroiding import *  # noqa
 
-__author__ = "Benjamin Rackham"
+__author__ = "Benjamin V. Rackham"
 __email__ = "brackham@mit.edu"
 __license__ = "MIT"
 __description__ = "Tools for vetting transit signals"
