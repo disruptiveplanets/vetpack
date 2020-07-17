@@ -33,6 +33,9 @@ release = '0.0.dev1'
 extensions = ['sphinx_automodapi.automodapi']
 numpydoc_show_class_members = False
 
+# Specify the master document
+master_doc = 'index'
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
