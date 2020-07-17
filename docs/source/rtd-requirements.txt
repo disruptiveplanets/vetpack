@@ -1,6 +1,7 @@
 astropy
 matplotlib
 numpy
+numpydoc
 scipy
 sphinx-automodapi
 transitleastsquares
