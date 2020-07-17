@@ -7,6 +7,8 @@ from astropy.time import Time
 from matplotlib import patches
 from scipy.signal import find_peaks
 
+__all__ = ['median_image', 'difference_image']
+
 
 def median_image(tpf, ax=None):
     """
