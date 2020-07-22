@@ -6,7 +6,10 @@ A collection of tools for vetting transit signals.
 Tutorials
 =========
 
-Coming soon!
+.. toctree::
+   :maxdepth: 1
+
+   tutorials/index
 
 Reference/API
 =============
