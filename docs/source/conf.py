@@ -30,7 +30,7 @@ release = '0.0.dev1'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx_automodapi.automodapi', 'numpydoc']
+extensions = ['nbsphinx', 'numpydoc', 'sphinx_automodapi.automodapi']
 numpydoc_show_class_members = False
 
 # Specify the master document
