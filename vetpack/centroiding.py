@@ -29,11 +29,7 @@ def median_image(tpf, ax=None):
         An ``Axes`` object with the median image plotted.
     """
     # Target position in the TPF
-    ra, dec = _pmcorrected_coordinates(tpf)
-    radec = np.vstack([ra, dec]).T
-    coords = tpf.wcs.all_world2pix(radec, 0)
-    tx = coords[0][0]+tpf.column
-    ty = coords[0][1]+tpf.row
+    tx, ty = _target_pixel_position(tpf)
 
     # Limits of the plot
     xlim = (tpf.column, tpf.column+tpf.shape[1])
@@ -90,11 +86,7 @@ def difference_image(tpf, t0, period, duration, ax=None):
         An ``Axes`` object with the median difference image plotted.
     """
     # Target position in the TPF
-    ra, dec = _pmcorrected_coordinates(tpf)
-    radec = np.vstack([ra, dec]).T
-    coords = tpf.wcs.all_world2pix(radec, 0)
-    tx = coords[0][0]+tpf.column
-    ty = coords[0][0]+tpf.row
+    tx, ty = _target_pixel_position(tpf)
 
     # Limits of the plot
     xlim = (tpf.column, tpf.column+tpf.shape[1])
@@ -210,3 +202,29 @@ def _pmcorrected_coordinates(tpf):
     dec = tpf.dec + pmdec
 
     return ra, dec
+
+
+def _target_pixel_position(tpf):
+    """
+    Get the proper-motion-corrected target pixel position.
+
+    Parameters
+    ----------
+    tpf : `~lightkurve.TargetPixelFile`
+        A target pixel file object.
+
+    Returns
+    -------
+    tx : float
+        The x-pixel position of the target.
+
+    ty : float
+        The y-pixel position of the target.
+    """
+    ra, dec = _pmcorrected_coordinates(tpf)
+    radec = np.vstack([ra, dec]).T
+    coords = tpf.wcs.all_world2pix(radec, 0)
+    tx = coords[0][0]+tpf.column
+    ty = coords[0][1]+tpf.row
+
+    return tx, ty
