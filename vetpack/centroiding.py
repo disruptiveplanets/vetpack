@@ -33,7 +33,7 @@ def median_image(tpf, ax=None):
     radec = np.vstack([ra, dec]).T
     coords = tpf.wcs.all_world2pix(radec, 0)
     tx = coords[0][0]+tpf.column
-    ty = coords[0][0]+tpf.row
+    ty = coords[0][1]+tpf.row
 
     # Limits of the plot
     xlim = (tpf.column, tpf.column+tpf.shape[1])
